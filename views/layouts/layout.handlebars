@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LoginApp</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="/css/bootstrap.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <style>
@@ -34,15 +34,16 @@
         <nav>
             <ul class="nav nav-pills pull-right">
                 {{#if user}}
-                    <li role="presentation"><a href="/">Dashboard</a></li>
-                    <li role="presentation"><a href="/users/logout">Logout</a></li>
+                    <li role="presentation"><a href="/"><button class="button button4">Dashboard</button></a></li>
+                    <li role="presentation"><a href="/users/logout"><button class="button button4">Logout</button></a></li>
                 {{else}}
                     <li role="presentation"><a href="/users/login"><button class="button button4">Login</button></a></li>
                     <li role="presentation"><a href="/users/register"><button class="button button4">Register</button></a></li>
+                    <li role="presentation"><a href="/auth/facebook"><button class="button button4">Login with Facebook</button></a></li>
                 {{/if}}
             </ul>
         </nav>
-        <h3 class="text-muted">LoginApp</h3>
+        <h3 class="text-muted">Dashboard</h3>
     </div>
 
 
@@ -67,7 +68,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2015 LoginApp, Inc.</p>
+        <p>&copy; 2018 Dashboard, Inc.</p>
     </footer>
 
 </div> <!-- /container -->

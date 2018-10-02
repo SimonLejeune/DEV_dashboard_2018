@@ -27,6 +27,12 @@
     "mongoose": "*",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "passport-facebook": "*",
+    "jquery": "*",
+    "popper.js": "*",
+    "passport-http-bearer": "*",
+    "passport-twitter": "*",
+    "request": "*"
   }
 }

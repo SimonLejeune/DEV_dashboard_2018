@@ -7,10 +7,12 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+
+var fs = require('fs');
+var https = require('https');
 
 mongoose.connect("mongodb://localhost/dashboard", { useNewUrlParser: true });
 
@@ -21,6 +23,8 @@ var users = require('./routes/users');
 // Init app
 
 var app = express();
+
+
 
 // View Engine
 
@@ -87,8 +91,45 @@ app.use('/', routes);
 app.use('/users', users);
 
 // Set Port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 8443));
 
-app.listen(app.get('port'), function(){
+var certOptions = {
+    key: fs.readFileSync(path.resolve('server.key')),
+    cert: fs.readFileSync(path.resolve('server.crt'))
+}
+
+// var httpServer = http.createServer(app);
+var httpsServer = https.createServer(certOptions, app);
+
+httpsServer.listen(8443, function () {
     console.log('Server started on port '+app.get('port'));
+
 });
+
+// passport.use(new FacebookStrategy({
+//         clientID: '329487647627097',
+//         clientSecret: '597b8abd87ee0c8232518d07e37e0d84',
+//         callbackURL: "https://localhost:8443/"
+//     },
+//     function(accessToken, refreshToken, profile, done) {
+//         User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+//             if (err) { return done(err); }
+//             done(null, user);
+//         });
+//     }
+// ));
+
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { successRedirect: 'index', failureRedirect: '/users/login' }),
+    function (req, res) {
+        res.redirect('index');
+    });
