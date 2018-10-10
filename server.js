@@ -24,13 +24,13 @@ app.post('/', function (req, res) {
             if (weather.main === undefined) {
                 res.render('index', {weather: null, error: 'Error, please try again'})
             } else {
-                let weatherText = `Il fait ${weather.main.temp}° à ${weather.name}`;
+                let weatherText = `Il fait ${weather.main.temp}° à ${weather.name} bite`;
                 res.render('index', {weather: weatherText, error: null})
             }
         }
     })
 });
 
-app.listen(3000, function () {
+app.listen(8080, function () {
     console.log('Example app listening on port 3000!')
 });
