@@ -11,6 +11,10 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+var AzureAdOAuth2Strategy = require('passport-azure-ad-oauth2');
+
 var fs = require('fs');
 var https = require('https');
 
@@ -106,18 +110,18 @@ httpsServer.listen(8443, function () {
 
 });
 
-// passport.use(new FacebookStrategy({
-//         clientID: '329487647627097',
-//         clientSecret: '597b8abd87ee0c8232518d07e37e0d84',
-//         callbackURL: "https://localhost:8443/"
-//     },
-//     function(accessToken, refreshToken, profile, done) {
-//         User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-//             if (err) { return done(err); }
-//             done(null, user);
-//         });
-//     }
-// ));
+passport.use(new FacebookStrategy({
+        clientID: '329487647627097',
+        clientSecret: '597b8abd87ee0c8232518d07e37e0d84',
+        callbackURL: "https://localhost:8443/"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+            if (err) { return done(err); }
+            done(null, user);
+        });
+    }
+));
 
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
@@ -132,4 +136,32 @@ app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: 'index', failureRedirect: '/users/login' }),
     function (req, res) {
         res.redirect('index');
+    });
+
+passport.use(new AzureAdOAuth2Strategy({
+        clientID: '9638e45d-956a-4034-af8e-9368d07871f8',
+        clientSecret: 'luihKQBW8534*;$ibmMAW3:',
+        callbackURL: 'https://www.example.net/auth/azureadoauth2/callback',
+        resource: '00000002-0000-0000-c000-000000000000',
+        tenant: 'contoso.onmicrosoft.com'
+    },
+    function (accessToken, refresh_token, params, profile, done) {
+        // currently we can't find a way to exchange access token by user info (see userProfile implementation), so
+        // you will need a jwt-package like https://github.com/auth0/node-jsonwebtoken to decode id_token and get waad profile
+        var waadProfile = profile || jwt.decode(params.id_token);
+
+        // this is just an example: here you would provide a model *User* with the function *findOrCreate*
+        User.findOrCreate({ id: waadProfile.upn }, function (err, user) {
+            done(err, user);
+        });
+    }));
+
+app.get('/auth/azureadoauth2',
+    passport.authenticate('azure_ad_oauth2'));
+
+app.get('/auth/azureadoauth2/callback',
+    passport.authenticate('azure_ad_oauth2', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
     });

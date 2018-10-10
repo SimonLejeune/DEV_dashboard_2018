@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
 
 
 var User = require('../models/user');
@@ -96,19 +95,6 @@ passport.use(new LocalStrategy(
         });
     }));
 
-passport.use(new FacebookStrategy({
-        clientID: '329487647627097',
-        clientSecret: '597b8abd87ee0c8232518d07e37e0d84',
-        callbackURL: "https://localhost:8443"
-    },
-    function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-            if (err) { return done(err); }
-            done(null, user);
-        });
-    }
-));
-
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
@@ -118,21 +104,6 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
-
-// Redirect the user to Facebook for authentication.  When complete,
-// Facebook will redirect the user back to the application at
-//     /auth/facebook/callback
-router.get('/auth/facebook', passport.authenticate('facebook'));
-
-// Facebook will redirect the user to this URL after approval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
-router.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { successRedirect: 'index', failureRedirect: '/users/login' }),
-    function (req, res) {
-        res.redirect('index');
-    });
 
 router.post('/login',
     passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }),
