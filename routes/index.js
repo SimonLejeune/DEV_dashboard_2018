@@ -31,7 +31,7 @@ router.post('/', function (req, res) {
             if (weather.main === undefined) {
                 res.render('index', {weather: null, error: 'Error, please try again'})
             } else {
-                let weatherText = `Il fait ${weather.main.temp}° à ${weather.name} bite`;
+                let weatherText = `Il fait ${weather.main.temp}° à ${weather.name}`;
                 res.render('index', {weather: weatherText, error: null})
             }
         }
