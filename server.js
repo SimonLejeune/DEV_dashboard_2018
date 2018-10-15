@@ -1,36 +1,68 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const request = require('request');
-const apiKey = '9cb9ebf1faf9432efdd2489ed4b4f914';
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+const mongoose = require('mongoose');
 
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+mongoose.connect('mongodb://localhost/dashboard', {useNewUrlParser: true, useCreateIndex: true});
+
+
+const index = require('./routes/index');
+const users = require('./routes/users');
+
+
 app.set('view engine', 'ejs');
 
-app.get('/', function (req, res) {
-    res.render('index', {weather: null, error: null})
+// BodyParser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+
+app.use(express.static('public'));
+
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(expressValidator({
+    errorFormatter: function (param, msg, value) {
+        var namespace = param.split('.')
+            , root = namespace.shift()
+            , formParam = root;
+
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value
+        };
+    }
+}));
+
+app.use(flash());
+
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
 });
 
-app.post('/', function (req, res) {
-    let city = req.body.city;
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-    request(url, function (err, response, body) {
-        if (err) {
-            res.render('index', {weather: null, error: 'Error, please try again'})
-        } else {
-            let weather = JSON.parse(body);
-            console.log(weather);
-            if (weather.main === undefined) {
-                res.render('index', {weather: null, error: 'Error, please try again'})
-            } else {
-                let weatherText = `Il fait ${weather.main.temp}° à ${weather.name} bite`;
-                res.render('index', {weather: weatherText, error: null})
-            }
-        }
-    })
-});
+app.use('/', index);
+app.use('/users', users);
 
 app.listen(8080, function () {
-    console.log('Example app listening on port 3000!')
+    console.log('Example app listening on port 8080!')
 });
