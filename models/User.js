@@ -1,11 +1,17 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-// User Schema
+mongoose.set('useCreateIndex', true);
+mongoose.connect("mongodb://localhost/dashboard", { useNewUrlParser: true });
+
+var db = mongoose.connection;
+
+// User model
+
 var UserSchema = mongoose.Schema({
     username: {
         type: String,
-        index:true
+        index: true
     },
     password: {
         type: String
