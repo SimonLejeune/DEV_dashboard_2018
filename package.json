@@ -1,13 +1,13 @@
 {
-  "name": "weather-app",
+  "name": "dashboard",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "dashboard for epitech",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Maximilien Desnos - Simon Lejeune",
   "license": "ISC",
   "dependencies": {
     "ejs": "*",
