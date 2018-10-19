@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "ejs": "*",
-    "request": "*",
+    "bcrypt-nodejs": "*",
     "bcryptjs": "*",
     "body-parser": "*",
     "connect-flash": "*",
@@ -21,11 +21,17 @@
     "express-session": "*",
     "express-validator": "*",
     "jquery": "*",
-    "mongodb": "*",
+    "method-override": "*",
     "mongoose": "*",
+    "morgan": "^1.9.1",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
-    "passport-google-oauth20": "*"
+    "passport-facebook": "*",
+    "passport-twitter": "*",
+    "passport-google-oauth": "*",
+    "passport-azure-ad-oauth2": "*",
+    "fs": "*",
+    "https": "*"
   }
 }
