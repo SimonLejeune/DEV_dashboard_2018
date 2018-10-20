@@ -5,7 +5,8 @@ const $ = require('jquery')
 
 
 const apiKey = '9cb9ebf1faf9432efdd2489ed4b4f914';
-const apiKey_Steam = 'B80BA570C678C23C56E3B4F42CC90FBF'
+const apiKey_Steam = 'B80BA570C678C23C56E3B4F42CC90FBF';
+const id_default = '76561198068118015';
 
 router.get('/', isLoggedIn, function (req, res) {
     res.render('dashboard', {weather: null, weatherWeek: null, error: null});
@@ -39,9 +40,11 @@ function getRequest(url, res) {
 
 router.post('/currentMeteo', function (req, res) {
         let city = req.body.city;
+        if (city === undefined)
+            city = "lille";
         let url_current_weather = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
         let url_weather_five_days = `http://api.openweathermap.org/data/2.5/forecast?q=${city},fr&units=metric&appid=${apiKey}`
-        let url_steam_info = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey_Steam}&steamids=76561198068118015`
+        let url_steam_info = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey_Steam}&steamids=${id_default}`
         let weatherText = [];
         let weatherWeekText = [];
         getRequest(url_current_weather, res).then(function (body1) {

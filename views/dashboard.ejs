@@ -60,6 +60,7 @@
     <script>
         function cache() {
             $('#meteoWeek').toggle();
+            $('#current meteo').toggle();
         }
     </script>
     <script>
@@ -74,7 +75,7 @@
 <div class="youtube" id="youtube">
     <h4>Youtube</h4>
 
-    <form action="/" method="post">
+    <form action="/dashboard/currentMeteo" method="post">
         <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
         <input type="submit" class="ghost-button" value="Get Weather">
     </form>
@@ -87,7 +88,7 @@
 <div class="steam" id="steam">
     <h4>Steam</h4>
 
-    <form action="/" method="post">
+    <form action="/dashboard/currentMeteo" method="post">
         <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
         <input type="submit" class="ghost-button" value="Get Weather">
     </form>
