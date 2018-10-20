@@ -37,7 +37,7 @@ app.use(express.static(__dirname+"/public"));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch', resave: true, saveUninitialized: true})); // session secret
+app.use(session({ secret: 'secret', resave: true, saveUninitialized: true})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -68,5 +68,5 @@ var certOptions = {
 var server = https.createServer(certOptions, app);
 
 server.listen(port, function() {
-    console.log('The magic happens on port ' + port);
+    console.log('The magic happens on https://localhost:' + port);
 })
