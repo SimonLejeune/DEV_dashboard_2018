@@ -20,6 +20,7 @@
     "method-override": "*",
     "mongoose": "*",
     "morgan": "^1.9.1",
+    "jquery": "*",
     "passport": "*",
     "passport-facebook": "*",
     "passport-google-oauth": "*",

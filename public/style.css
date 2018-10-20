@@ -1,0 +1,40 @@
+body {background-color: #575748;}
+.page-header {
+    color: #FCA205;
+    font-family: 'Lobster';
+    src: url('/public/Lobster.woff');
+}
+
+h4{
+    Font-Weight: Bold;
+}
+
+div#meteo {
+    float: left;
+    width: 31%;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin : 10px;
+
+    text-align: center;
+}
+
+div#youtube{
+
+    float: left;
+    width: 31%;
+ /*   margin-left: 10px;*/
+    background-color: rgba(255, 255, 255, 0.8);
+
+    text-align: center;
+    margin : 10px;
+}
+
+div#steam {
+    float: left;
+    width: 31%;
+    /*overflow: auto;*/
+    background-color: rgba(255, 255, 255, 0.8);
+
+    text-align: center;
+    margin : 10px;
+}
