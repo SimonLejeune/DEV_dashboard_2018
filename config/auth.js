@@ -13,7 +13,7 @@ module.exports = {
 
     'twitterAuth' : {
         'consumerKey'       : 'TyyMEL2vwH5Y1jYUXDE3nJ162',
-        'consumerSecret'    : 'yk3c1R9ZcbJnwUeq0JAoh3MvJr68mwcG2eky8K6WHOg5ArhT2qK',
+        'consumerSecret'    : 'k3c1R9ZcbJnwUeq0JAoh3MvJr68mwcG2eky8K6WHOg5ArhT2qK',
         'callbackURL'       : 'https://localhost:8080/auth/twitter/callback'
     },
 
@@ -24,8 +24,8 @@ module.exports = {
     },
 
     'officeAuth' : {
-        'clientID'      : '921636684244-clmbln80diet5ldscqc22f667tmuimfr.apps.googleusercontent.com',
-        'clientSecret'  : 'F15XY3ad3_A11DVGHH6K0Pd6',
-        'callbackURL'   : 'http://localhost:8080/auth/google/callback'
+        'clientID'      : '9638e45d-956a-4034-af8e-9368d07871f8',
+        'clientSecret'  : 'onvsXM45#gpzOASMZ963:}_',
+        'callbackURL'   : 'https://localhost:8080/auth/azure_ad_oauth2/callback'
     }
 };
