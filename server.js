@@ -1,107 +1,68 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const expressValidator = require('express-validator');
-const flash = require('connect-flash');
-const session = require('express-session');
-const passport = require('passport');
+// set up ======================================================================
+// get all the tools we need
+const express  = require('express');
+const app      = express();
+const port     = process.env.PORT || 8080;
 const mongoose = require('mongoose');
-const fs = require('fs');
-const https = require('https');
+const passport = require('passport');
+const flash    = require('connect-flash');
 
-mongoose.connect('mongodb://localhost/dashboard', {useNewUrlParser: true, useCreateIndex: true});
+const morgan       = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser   = require('body-parser');
+const session      = require('express-session');
 
+const configDB = require('./config/database.js');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
+//https config
 
+var fs = require('fs')
+var https = require('https')
 
-app.set('view engine', 'ejs');
+// configuration ===============================================================
+mongoose.connect(configDB.url, { useNewUrlParser: true }); // connect to our database
 
-// BodyParser Middleware
-app.use(bodyParser.json());
+require('./config/passport')(passport); // pass passport for configuration
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
+app.use(bodyParser.json());
 
-app.use(express.static('public'));
+app.set('view engine', 'ejs'); // set up ejs for templating
 
-app.use(session({
-    secret: 'secret',
-    saveUninitialized: true,
-    resave: true
-}));
-
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch', resave: true, saveUninitialized: true})); // session secret
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.use(expressValidator({
-    errorFormatter: function (param, msg, value) {
-        var namespace = param.split('.')
-            , root = namespace.shift()
-            , formParam = root;
+// routes ======================================================================
+// require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
-        while (namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
-        }
-        return {
-            param: formParam,
-            msg: msg,
-            value: value
-        };
-    }
-}));
-
-app.use(flash());
-
-app.use(function (req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    res.locals.user = req.user || null;
-    next();
-});
+const index = require('./app/index');
+const dashboard = require('./app/dashboard')
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/dashboard', dashboard);
 
-app.listen(8080, function () {
-    console.log('Dashboard listening on port 8080!')
-});
-
-// var certOptions = {
-//     key: fs.readFileSync('server.key'),
-//     cert: fs.readFileSync('server.crt')
-// }
-//
-// // var httpServer = http.createServer(app);
-// var httpsServer = https.createServer(certOptions, app);
-//
-// httpsServer.listen(8080, function () {
-//     console.log('Server started on port '+app.get('port'));
-//
+// // launch ======================================================================
+// app.listen(port, function() {
+//     console.log('The magic happens on port ' + port);
 // });
-//
-// var GoogleStrategy = require('passport-google-oauth20').Strategy;
-//
-// passport.use(new GoogleStrategy({
-//         clientID: '546946746213-i9u8vmqbmuc3lgdmbd7s6cg8pfdr2333.apps.googleusercontent.com',
-//         clientSecret: 'RHnSWHoFhcUzXSbiCW5YPX7N',
-//         callbackURL: "https://localhost:8080/auth/google/callback"
-//     },
-//     function(accessToken, refreshToken, profile, cb) {
-//         User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//             return cb(err, user);
-//         });
-//     }
-// ));
-//
-// app.get('/auth/google',
-//     passport.authenticate('google', { scope: ['profile'] }));
-//
-// app.get('/auth/google/callback',
-//     passport.authenticate('google', { failureRedirect: '/login' }),
-//     function(req, res) {
-//         // Successful authentication, redirect home.
-//         res.redirect('/');
-//     });
+
+// https server
+
+var certOptions = {
+    key: fs.readFileSync('./server.key'),
+    cert: fs.readFileSync('./server.crt'),
+    requestCert: false,
+    rejectUnauthorized: false
+}
+
+var server = https.createServer(certOptions, app);
+
+server.listen(port, function() {
+    console.log('The magic happens on port ' + port);
+})
