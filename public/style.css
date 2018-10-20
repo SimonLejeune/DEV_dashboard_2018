@@ -1,10 +1,36 @@
-body {background-color: #575748;}
-.page-header {
-    color: #FCA205;
+
+.container {
+    /* On centre */
+    margin: 0 auto;
+
+    /* On limite la largeur pour les grands écrans */
+    max-width: 1280px;
+
+    /* On gère la présence d'une marge */
+    width: 90%;
+    background-color: #f1f1f1;
 }
 
+.page-header {
+    color: #FCA205;
+    font-family: 'Lobster';
+    src: url('/public/Lobster.woff');
+}
 h4{
     Font-Weight: Bold;
+}
+
+h5{
+    text-decoration: underline;
+}
+
+.container {
+    margin : 10px;
+}
+
+div#day {
+    float: left;
+    width: 2%;
 }
 
 div#meteo {
