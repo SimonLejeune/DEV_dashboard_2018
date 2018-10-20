@@ -13,7 +13,7 @@ module.exports = {
 
     'twitterAuth' : {
         'consumerKey'       : 'TyyMEL2vwH5Y1jYUXDE3nJ162',
-        'consumerSecret'    : 'yk3c1R9ZcbJnwUeq0JAoh3MvJr68mwcG2eky8K6WHOg5ArhT2qK',
+        'consumerSecret'    : 'k3c1R9ZcbJnwUeq0JAoh3MvJr68mwcG2eky8K6WHOg5ArhT2qK',
         'callbackURL'       : 'https://localhost:8080/auth/twitter/callback'
     },
 

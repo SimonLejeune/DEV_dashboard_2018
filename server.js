@@ -64,5 +64,5 @@ var certOptions = {
 var server = https.createServer(certOptions, app);
 
 server.listen(port, function() {
-    console.log('Servre listen on ' + port);
+    console.log('The magic happens on https://localhost:' + port);
 })
