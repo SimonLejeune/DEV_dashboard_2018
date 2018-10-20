@@ -16,8 +16,8 @@ const configDB = require('./config/database.js');
 
 //https config
 
-var fs = require('fs');
-var https = require('https');
+var fs = require('fs')
+var https = require('https')
 
 // configuration ===============================================================
 mongoose.connect(configDB.url, { useNewUrlParser: true }); // connect to our database
@@ -39,7 +39,13 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+// require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
+const index = require('./app/index');
+const dashboard = require('./app/dashboard')
+
+app.use('/', index);
+app.use('/dashboard', dashboard);
 
 // // launch ======================================================================
 // app.listen(port, function() {
