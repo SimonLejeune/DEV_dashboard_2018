@@ -11,6 +11,8 @@ const morgan       = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
 const session      = require('express-session');
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 
 const configDB = require('./config/database.js');
 
