@@ -2,11 +2,8 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Dashboard</title>
-    <div class="page-header text-center">
-        <h1><span class="fa fa-tachometer"></span> Dashboard</h1>
-        <a href="/dashboard/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<<<<<<< HEAD
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
@@ -26,8 +23,39 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+=======
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <!-- load fontawesome -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
 </head>
+<% if(user.facebook.name){ %>
+    <h3 class="text-primary"><span class="fab fa-facebook"></span> Facebook</h3>
+    <img src="<%= user.facebook.profilePicture %>"/>
+    <span>Bienvenue</span> <%= user.facebook.name %>
+<% } %>
+
+<% if(user.twitter.username){ %>
+    <h3 class="text-info"><span class="fab fa-twitter"></span> Twitter</h3>
+    <a href="<%= user.twitter.profile %>" target="_blank"><img src="<%= user.twitter.profilePicture %>"/></a>
+    <span>Bienvenue</span> <%= user.twitter.username %> <br>
+    <a href="<%= user.twitter.profile %>" target="_blank">Votre profil Twitter</a><br>
+    <span>Vous avez :</span> <%= user.twitter.followers_count %> <span> followers</span><br>
+    <span>Vous suivez :</span> <%= user.twitter.friends_count %> <span> personnes</span>
+<% } %>
+
+<% if(user.google.name){ %>
+    <h3 class="text-danger"><span class="fab fa-google"></span> Google</h3>
+<a href="<%= user.google.profile %>" target="_blank"><img src="<%= user.google.profilePicture %>"/></a>
+    <span>Bienvenue</span> <%= user.google.name %> <br>
+    <a href="<%= user.google.profile %>" target="_blank">Votre profil Google</a>
+
+<% } %>
 <body onload="cache()">
+<<<<<<< HEAD
 <div class="meteo" id="meteo">
     <ul id="sortable">
 
@@ -71,6 +99,53 @@
 
     <script>
         $('#5days').click(function(){
+=======
+<div class="page-header text-center">
+    <h1><span class="fa fa-tachometer"></span> Dashboard</h1>
+    <a href="/dashboard/logout" class="btn btn-default btn-sm">Logout</a>
+</div>
+
+<div class="meteo" id="meteo">
+    <h4>Météo</h4>
+    <form action="/dashboard/currentMeteo" method="post">
+        <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
+        <input type="submit" class="ghost-button" value="Get Weather" id="print">
+    </form>
+    <button class="btn btn-primary">print</button>
+    <% if(weather !== null){ %>
+
+    <% } %>
+
+    <div class="container" id="current meteo">
+        <% if(weather !== null){ %>
+            <% for (var result in weather){ %>
+                <p><%= weather[result] %></p>
+            <% } %>
+        <% } %>
+        <% if(error !== null){ %>
+            <p><%= error %></p>
+        <% } %>
+    </div>
+
+    <div class="container" id="meteoWeek">
+        <% if(weatherWeek !== null){ %>
+            <% for (var result in weatherWeek){ %>
+                <p><%= weatherWeek[result] %></p>
+            <% } %>
+        <% } %>
+        <% if(error !== null){ %>
+            <p><%= error %></p>
+        <% } %>
+    </div>
+
+    <script>
+        function cache() {
+            $('#meteoWeek').toggle();
+        }
+    </script>
+    <script>
+        $('button').click(function () {
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
             $('#meteoWeek').toggle();
         });
         $('#Current').click(function(){
@@ -78,7 +153,6 @@
         });
     </script>
 </div>
-
 
 
 <div class="youtube" id="youtube">
@@ -93,6 +167,10 @@
     </ul>
 </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
 <div class="steam" id="steam">
     <ul id="sortableS">
         <h4>Steam</h4>

@@ -8,7 +8,7 @@ module.exports = {
         'clientSecret'  : 'b1e25c320a1909aef7faf3e3508f467a', // your App Secret
         'callbackURL'   : 'https://localhost:8080/auth/facebook/callback',
         'profileURL'    : 'https://graph.facebook.com/v2.5/me?fields=first_name,last_name,email',
-        'profileFields' : ['id', 'email', 'name'] // For requesting permissions from Facebook API
+        'profileFields' : ['id', 'email', 'displayName', 'picture.type(large)'] // For requesting permissions from Facebook API
     },
 
     'twitterAuth' : {
@@ -24,8 +24,12 @@ module.exports = {
     },
 
     'officeAuth' : {
-        'clientID'      : '9638e45d-956a-4034-af8e-9368d07871f8',
-        'clientSecret'  : 'onvsXM45#gpzOASMZ963:}_',
-        'callbackURL'   : 'https://localhost:8080/auth/azure_ad_oauth2/callback'
+        'clientID'      : '59d4830d-4c40-4e4f-9cb0-82aebd19ec15',
+        'clientSecret'  : '7be8e778-33d1-490c-ae37-e0661c1af679',
+        'callbackURL'   : 'https://localhost:8080/auth/openid/return',
+        'identityMetadata': 'https://login.microsoftonline.com/epitechfr.onmicrosoft.com/.well-known/openid-configuration',
+        'responseType': 'code id_token',
+        'responseMode': 'form_post',
+        'redirectUrl': 'https://localhost:8080/auth/openid/return'
     }
 };

@@ -13,7 +13,11 @@ var steamInfo = null;
 var steamGameList = null;
 
 router.get('/', isLoggedIn, function (req, res) {
+<<<<<<< HEAD
     res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, error: null});
+=======
+    res.render('dashboard', {weather: null, weatherWeek: null, error: null, user : req.user});
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
 });
 
 // route middleware to make sure a user is logged in
@@ -89,7 +93,11 @@ router.post('/currentMeteo', function (req, res) {
         getRequest(url_current_weather, res).then(function (body1) {
             let weather_current = JSON.parse(body1);
             if (weather_current.main === undefined) {
+<<<<<<< HEAD
                 res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, error: 'Error, please try again'})
+=======
+                res.render('dashboard', {weather: null, weatherWeek: null, error: 'Error, please try again', user : req.user})
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
             } else {
                 cityGlob = city;
                 weatherText = []
@@ -123,9 +131,16 @@ router.post('/currentMeteo', function (req, res) {
                 weatherWeekText.push(dayCurrent);
                 i++;
             }
+<<<<<<< HEAD
             CurrentWeather = weatherText;
             PrevisionWeather = weatherWeekText;
             res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, steamInfo:steamInfo, GameList: steamGameList,  error: null});
+=======
+            return getRequest(url_steam_info, res);
+        }).then(function (body3) {
+            let steam_info = JSON.parse(body3);
+            res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, error: null, user : req.user});
+>>>>>>> e74407d6e1032d5b7ba9850c32e6cc75f160331e
         })
     }
 );

@@ -86,13 +86,56 @@ router.get('/auth/google/callback', passport.authenticate('google', {
 // send to google to do the authentication
 // profile gets us their basic information including their name
 // email gets their emails
-router.get('/auth/azure_ad_oauth2', passport.authenticate('azure_ad_oauth2', {scope: ['profile', 'email']}));
+// router.get('/auth/azure_ad',
+//     passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
+//     function(req, res) {
+//         log.info('Login was called in the Sample');
+//         res.redirect('/');
+//     });
+//
+// // POST /auth/openid/return
+// //   Use passport.authenticate() as route middleware to authenticate the
+// //   request.  If authentication fails, the user will be redirected back to the
+// //   home page.  Otherwise, the primary route function function will be called,
+// //   which, in this example, will redirect the user to the home page.
+// router.post('/auth/openid/return',
+//     passport.authenticate('azuread-openidconnect', { successRedirect: '/dashboard', failureRedirect: '/' }),
+//     function(req, res) {
+//         console.log(res);
+//         res.redirect('/');
+//     });
 
-// the callback after google has authenticated the user
-router.get('/auth/azure_ad_oauth2/callback', passport.authenticate('azure_ad_oauth2', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/'
-}));
+router.get('/auth/openid/return',
+    function(req, res, next) {
+        passport.authenticate('azuread-openidconnect',
+            {
+                response: res,                      // required
+                failureRedirect: '/'
+            }
+        )(req, res, next);
+    },
+    function(req, res) {
+        log.info('We received a return from AzureAD.');
+        res.redirect('/');
+    });
+
+// 'POST returnURL'
+// `passport.authenticate` will try to authenticate the content returned in
+// body (such as authorization code). If authentication fails, user will be
+// redirected to '/' (home page); otherwise, it passes to the next middleware.
+router.post('/auth/openid/return',
+    function(req, res, next) {
+        passport.authenticate('azuread-openidconnect',
+            {
+                response: res,                      // required
+                failureRedirect: '/'
+            }
+        )(req, res, next);
+    },
+    function(req, res) {
+        log.info('We received a return from AzureAD.');
+        res.redirect('/');
+    });
 
 
 module.exports = router;
