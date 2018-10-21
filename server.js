@@ -51,6 +51,18 @@ const dashboard = require('./app/dashboard')
 app.use('/', index);
 app.use('/dashboard', dashboard);
 
+app.get('/about.json',function(req,res){
+
+    fs.readFile('./about.json', 'utf8', function (err, data) {
+        if (err) {
+            console.log('Error: ' + err);
+            return;
+        }
+        console.log(data);
+        res.send(JSON.parse(data));
+    });
+});
+
 // // launch ======================================================================
 // app.listen(port, function() {
 //     console.log('The magic happens on port ' + port);

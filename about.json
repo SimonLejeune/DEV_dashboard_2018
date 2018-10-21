@@ -1,59 +1,80 @@
 {
   " client ": {
-    " host ": "localhost"
+    " host ": "10.101.53.35"
   },
   " server ": {
-    " current_time ": 1531680780 ,
-    " services ": [{
-      " name ": " weather " ,
-      " widgets ": [{
-        " name ": " Current meteo " ,
-        " description ": " Affichage de la temperature, humiditer, le ciel, température max et min pour une ville " ,
-        " params ": [{
-          " name ": " city " ,
-          " type ": " string "
-        }]
-      }, {
-        " name ": " Meteo Week " ,
-        " description " : " Affiche la température, humiditer, le ciel température max et min de la semaine d'une ville" ,
-        " params ": [{
-          " name " : "city" ,
-          " type ": " string "
-        }]
-      }]
-    }, {
-      " name ": " steam " ,
-      " widgets ": [{
-        " name ": " Profile information " ,
-        " description ": " Affiche photo de profile nom du compte avec lien vers le profile complet avec l'état du joueur " ,
-        " params ": [{
-          " name ": "ID" ,
-          " type ": " string "
-        }]
-      }, {
-        " name ": " List last Game " ,
-        " description ": " Affiche les dernier jeux au quel la personne à joué " ,
-        " params ": [{
-          " name ": "ID" ,
-          " type ": " string "
-        }, {
-          " name ": " List link friends " ,
-          " description ": " Affiche la liste des liens vers le profile des amis de la personne " ,
-          " params ": [{
-            " name ": "ID" ,
-            " type ": " string "
-          }]
-      }]
-    }]
-  }, {
-      " name ": " youtube " ,
-      " widgets ": [{
-        " name ": " Get first Video of research " ,
-        " description ": " Affiche la premier video trouver en fonction de la recherche" ,
-        " params ": [{
-          " name ": "Search" ,
-          " type ": " string "
-        }]
+    " current_time ": 1531680780,
+    " services ": [
+      {
+        " name ": " weather ",
+        " widgets ": [
+          {
+            " name ": " Current meteo ",
+            " description ": " Affichage de la temperature, humiditer, le ciel, température max et min pour une ville ",
+            " params ":
+              {
+                " name ": " city ",
+                " type ": " string "
+              }
+          },
+          {
+            " name ": " Meteo Week ",
+            " description ": " Affiche la température, humiditer, le ciel température max et min de la semaine d'une ville",
+            " params ":
+              {
+                " name ": "city",
+                " type ": " string "
+              }
+          }
+        ]
+      },
+      {
+        " name ": " steam ",
+        " widgets ": [
+          {
+            " name ": " Profile information ",
+            " description ": " Affiche photo de profile nom du compte avec lien vers le profile complet avec l'état du joueur ",
+            " params ":
+              {
+                " name ": "ID",
+                " type ": " string "
+              }
+          },
+          {
+            " name ": " List last Game ",
+            " description ": " Affiche les dernier jeux au quel la personne à joué ",
+            " params ": [
+              {
+                " name ": "ID",
+                " type ": " string "
+              },
+              {
+                " name ": " List link friends ",
+                " description ": " Affiche la liste des liens vers le profile des amis de la personne ",
+                " params ": [
+                  {
+                    " name ": "ID",
+                    " type ": " string "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        " name ": " Youtube ",
+        " widgets ": [
+          {
+            " name ": " get a video ",
+            " description ": " Affiche la première video selon la recherche ",
+            " params ": {
+              " name ": "search",
+              " type ": " string "
+            }
+          }
+        ]
       }
-    }
+    ]
+  }
 }
