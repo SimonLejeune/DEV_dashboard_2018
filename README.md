@@ -2,47 +2,63 @@
 
 Le but de ce projet est d'implémenter une application web style dashboard
 
-## Getting Started
+## Qu'est ce que c'est
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Le tableau de bord (le dashboard) est une représentation visuelle des informations les plus importantes, regroupées sur un écran afin de pouvoir être facilement comprises.
+Nous avons ici trois services: 
+        - La méteo
+        - La recherche d'une vidéo Youtube
+        - Steam 
 
-### Prerequisites
-
-What things you need to install the software and how to install them
+### Qu'offre ces services
 
 ```
-Give examples
+Il y a deux widgets pour la météo :
+        - L'affichage de la température, l'humidité dans l'aire, les températures maximal et minimal ainsi que l'état du ciel de la journée courrante.
+        - L'affichage de la température, l'humidité dans l'aire, les températures maximal et minimal ainsi que l'état du ciel des cing prochains jours.
+
+Il y a un widget pour Youtube:
+        - Recherche et lecture de vidéo youtube.
+        
+Il y a trois widgets pour Steam:
+        - Affichage du login, de l'avatar et de l'état de connection d'une personne.
+        - Affichage de la liste des deerniers jeux joué d'une personne.
+        - Affichage de la liste de l'ID des amis d'une personne.
+          
 ```
+
+### Comment Utiliser ces services
+
+```
+Météo :
+    - Entrer le nom d'une ville et valider avec Get weather.
+
+Youtube;
+    - Entrer le nom d'une vidéo et valider.
+
+Steam:
+    Entrer l'ID d'un utilisateur et valider. 
+```
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+```
+Installer le module npm
 
 ```
-Give the example
-```
-
-And repeat
 
 ```
-until finished
+Lancer : npm install
+
+Cela installera toute les dépendences mise dans le fichier package.json
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+### Mise en route
 
 ```
-Give an example
+Lancer : node server.js
 ```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
