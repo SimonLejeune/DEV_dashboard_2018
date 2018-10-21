@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Dashboard</title>
     <div class="page-header text-center">
@@ -9,55 +9,72 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <style>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+   <style>
         body        { padding-top:80px; }
     </style>
+    <script>
+        $( function() {
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
+            $( "#sortableS" ).sortable();
+            $( "#sortableS" ).disableSelection();
+            $( "#sortableG" ).sortable();
+            $( "#sortableG" ).disableSelection();
+        } );
+    </script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body onload="cache()">
-
 <div class="meteo" id="meteo">
-    <h4>Météo</h4>
-    <form action="/dashboard/currentMeteo" method="post">
-        <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
-        <input type="submit" class="ghost-button" value="Get Weather" id="print">
-    </form>
-    <button class="btn btn-primary">print</button>
-    <% if(weather !== null){ %>
+    <ul id="sortable">
 
-    <% } %>
+        <h4>Météo</h4>
 
-    <div class="container" id="current meteo">
-        <% if(weather !== null){ %>
-        <%for (var result in weather){%>
-        <p><%=weather[result]%></p>
-        <%}%>
-        <% } %>
-        <% if(error !== null){ %>
-            <p><%= error %></p>
-        <% } %>
-    </div>
+        <form action="/dashboard/currentMeteo" method="post">
+            <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
+            <input type="submit" class="ghost-button" value="Get Weather" id="print">
+        </form>
 
-    <div class="container" id="meteoWeek">
-        <% if(weatherWeek !== null){ %>
-        <%for (var result in weatherWeek){%>
-        <p><%=weatherWeek[result]%></p>
-        <% } %>
-        <% } %>
-        <% if(error !== null){ %>
-            <p><%= error %></p>
-        <% } %>
-    </div>
+        <button class="btn btn-primary" id="Current">Current meteo</button>
+        <button class="btn btn-primary" id="5days">5 days</button>
+
+
+        <li>
+            <div class="container" id="current_meteo">
+                <% if(weather !== null){ %>
+                    <%for (var result in weather){%>
+                        <p><%=weather[result]%></p>
+                    <%}%>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
+            </div>
+        </li>
+
+        <li>
+            <div class="container" id="meteoWeek">
+                <% if(weatherWeek !== null){ %>
+                    <%for (var result in weatherWeek){%>
+                        <p><%=weatherWeek[result]%></p>
+                    <% } %>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
+            </div>
+        </li>
+    </ul>
 
     <script>
-        function cache() {
+        $('#5days').click(function(){
             $('#meteoWeek').toggle();
-            $('#current meteo').toggle();
-        }
-    </script>
-    <script>
-        $('button').click(function(){
-            $('#meteoWeek').toggle();
+        });
+        $('#Current').click(function(){
+            $('#current_meteo').toggle();
         });
     </script>
 </div>
@@ -65,26 +82,74 @@
 
 
 <div class="youtube" id="youtube">
-    <h4>Youtube</h4>
+    <ul id="sortable">
+        <h4>Youtube</h4>
 
-    <form action="/dashboard/currentMeteo" method="post">
-        <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
-        <input type="submit" class="ghost-button" value="Get Weather">
-    </form>
+        <form action="/dashboard/currentMeteo" method="post">
+            <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
+            <input type="submit" class="ghost-button" value="Get Weather">
+        </form>
 
-
+    </ul>
 </div>
-
-
 
 <div class="steam" id="steam">
-    <h4>Steam</h4>
+    <ul id="sortableS">
+        <h4>Steam</h4>
 
-    <form action="/dashboard/currentMeteo" method="post">
-        <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
-        <input type="submit" class="ghost-button" value="Get Weather">
-    </form>
+        <form action="/dashboard/InfoSteam" method="post">
+            <input name="id" type="text" class="ghost-input" placeholder="Enter a City" required>
+            <input type="submit" class="ghost-button" value="Get ID player">
+        </form>
+
+        <button class="btn btn-primary" id="gamelist">Last Game played</button>
+        <button class="btn btn-primary" id="profile">Profile</button>
+
+        <li>
+            <div class="container" id="SteamInfo">
+                <% if(steamInfo !== null){ %>
+                    <img src=<%=steamInfo[0]%> class="imageGauche" alt="Photo de mon gite" />
+                    <p> <a href=<%=steamInfo[3]%>><%=steamInfo[1]%></a>  is <%=steamInfo[2]%></p>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
+            </div>
+        </li>
+
+        <li>
+            <div class="container" id="gameList">
+                <% if(GameList !== null){ %>
+                <%for (var result in GameList){%>
+                <p><%=GameList[result]%></p>
+                <% } %>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
+            </div>
+        </li>
+    </ul>
+
+    <script>
+        $('#profile').click(function(){
+            $('#SteamInfo').toggle();
+        });
+        $('#gamelist').click(function(){
+            $('#gameList').toggle();
+        });
+    </script>
+
 
 </div>
+<script>
+    $('#GetMeteo').click(function () {
+        $('#meteo').toggle()
+    })
+    function cache() {
+        $('#meteoWeek').toggle();
+        $('#current_meteo').toggle();
+    }
+</script>
 </body>
 </html>
