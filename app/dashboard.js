@@ -8,7 +8,7 @@ const apiKey = '9cb9ebf1faf9432efdd2489ed4b4f914';
 const apiKey_Steam = 'B80BA570C678C23C56E3B4F42CC90FBF'
 
 router.get('/', isLoggedIn, function (req, res) {
-    res.render('dashboard', {weather: null, weatherWeek: null, error: null});
+    res.render('dashboard', {weather: null, weatherWeek: null, error: null, user : req.user});
 });
 
 // route middleware to make sure a user is logged in
@@ -47,7 +47,7 @@ router.post('/currentMeteo', function (req, res) {
         getRequest(url_current_weather, res).then(function (body1) {
             let weather_current = JSON.parse(body1);
             if (weather_current.main === undefined) {
-                res.render('dashboard', {weather: null, weatherWeek: null, error: 'Error, please try again'})
+                res.render('dashboard', {weather: null, weatherWeek: null, error: 'Error, please try again', user : req.user})
             } else {
                 cityGlob = city;
                 weatherText = []
@@ -84,7 +84,7 @@ router.post('/currentMeteo', function (req, res) {
             return getRequest(url_steam_info, res);
         }).then(function (body3) {
             let steam_info = JSON.parse(body3);
-            res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, error: null});
+            res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, error: null, user : req.user});
         })
     }
 );

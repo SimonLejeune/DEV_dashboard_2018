@@ -125,13 +125,13 @@ module.exports = function (passport) {
             // pull in our app id and secret from our auth.js file
             clientID: configAuth.facebookAuth.clientID,
             clientSecret: configAuth.facebookAuth.clientSecret,
-            callbackURL: configAuth.facebookAuth.callbackURL
+            callbackURL: configAuth.facebookAuth.callbackURL,
+            profileFields: configAuth.facebookAuth.profileFields
 
         },
 
         // facebook will send back the token and profile
         function (token, refreshToken, profile, done) {
-        console.log(profile);
 
             // asynchronous
             process.nextTick(function () {
@@ -154,9 +154,9 @@ module.exports = function (passport) {
                         // set all of the facebook information in our user model
                         newUser.facebook.id = profile.id; // set the users facebook id
                         newUser.facebook.token = token; // we will save the token that facebook provides to the user
-                        newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
-                        // newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
-                        newUser.facebook.name = profile.displayName;
+                        newUser.facebook.name = profile.displayName; // look at the passport user profile to see how names are returned
+                        newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+                        newUser.facebook.profilePicture = profile.photos[0].value;
 
                         // save our user to the database
                         newUser.save(function (err) {
@@ -198,6 +198,8 @@ module.exports = function (passport) {
 
                     // if the user is found then log them in
                     if (user) {
+                        user.twitter.followers_count = profile._json.followers_count;
+                        user.twitter.friends_count = profile._json.friends_count;
                         return done(null, user); // user found, return that user
                     } else {
                         // if there is no user, create them
@@ -208,6 +210,10 @@ module.exports = function (passport) {
                         newUser.twitter.token = token;
                         newUser.twitter.username = profile.username;
                         newUser.twitter.displayName = profile.displayName;
+                        newUser.twitter.profilePicture = profile.photos[0].value;
+                        newUser.twitter.profile = 'https://twitter.com/' + profile.username;
+                        newUser.twitter.followers_count = profile._json.followers_count;
+                        newUser.twitter.friends_count = profile._json.friends_count;
 
                         // save our user into the database
                         newUser.save(function (err) {
@@ -256,6 +262,8 @@ module.exports = function (passport) {
                         newUser.google.token = token;
                         newUser.google.name = profile.displayName;
                         newUser.google.email = profile.emails[0].value; // pull the first email
+                        newUser.google.profilePicture = profile.photos[0].value;
+                        newUser.google.profile = profile._json.url;
 
                         // save the user
                         newUser.save(function (err) {
