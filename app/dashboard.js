@@ -39,7 +39,7 @@ function getRequest(url, res) {
                 success(body);
             } else {
                 console.log("Error");
-                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn'})
+                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, user : req.user, error: 'Error, please try againnn'})
                 // failure(error);
             }
         });
@@ -53,7 +53,7 @@ router.post('/youtube',  function (req, res) {
     getRequest(url_youtube_info, res).then(function (body) {
         let youtube_info = JSON.parse(body);
         if (youtube_info.items.length == 0)
-            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn'})
+            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn', user : req.user})
         else
             youtubeText.push("https://www.youtube.com/embed/" + youtube_info.items[0].id.videoId)
         youtubeInfo = youtubeText;
@@ -73,7 +73,7 @@ router.post('/InfoSteam',  function (req, res) {
     getRequest(url_steam_info, res).then(function (body1) {
         let steam_info = JSON.parse(body1);
         if (steam_info.response.players.length == 0)
-            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn'})
+            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn', user : req.user})
         else
           //  steamText = steam_info.response.players[0].avatarfull;
             steamText.push(steam_info.response.players[0].avatarfull);
@@ -125,7 +125,7 @@ router.post('/currentMeteo', function (req, res) {
         getRequest(url_current_weather, res).then(function (body1) {
             let weather_current = JSON.parse(body1);
             if (weather_current.main === undefined) {
-                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn'})
+                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, FriendsList: steamFriendsList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn', user : req.user})
             } else {
                 cityGlob = city;
                 weatherText = []
