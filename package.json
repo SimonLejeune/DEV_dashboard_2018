@@ -26,7 +26,7 @@
     "passport-google-oauth": "*",
     "passport-local": "*",
     "passport-twitter": "*",
-    "passport-azure-ad-oauth2": "*",
+    "passport-azure-ad": "*",
     "fs": "*",
     "https": "*",
     "request": "*"

@@ -24,8 +24,12 @@ module.exports = {
     },
 
     'officeAuth' : {
-        'clientID'      : '9638e45d-956a-4034-af8e-9368d07871f8',
-        'clientSecret'  : 'onvsXM45#gpzOASMZ963:}_',
-        'callbackURL'   : 'https://localhost:8080/auth/azure_ad_oauth2/callback'
+        'clientID'      : '59d4830d-4c40-4e4f-9cb0-82aebd19ec15',
+        'clientSecret'  : '7be8e778-33d1-490c-ae37-e0661c1af679',
+        'callbackURL'   : 'https://localhost:8080/auth/openid/return',
+        'identityMetadata': 'https://login.microsoftonline.com/epitechfr.onmicrosoft.com/.well-known/openid-configuration',
+        'responseType': 'code id_token',
+        'responseMode': 'form_post',
+        'redirectUrl': 'https://localhost:8080/auth/openid/return'
     }
 };

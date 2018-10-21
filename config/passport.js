@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var OfficeStrategy = require('passport-azure-ad-oauth2').Strategy;
+var OfficeStrategy = require('passport-azure-ad').OIDCStrategy;
 
 // load up the user model
 var User = require('../app/models/User');
@@ -120,6 +120,10 @@ module.exports = function (passport) {
 
         }));
 
+    // =========================================================================
+    // FACEBOOK ================================================================
+    // =========================================================================
+
     passport.use(new FacebookStrategy({
 
             // pull in our app id and secret from our auth.js file
@@ -200,7 +204,12 @@ module.exports = function (passport) {
                     if (user) {
                         user.twitter.followers_count = profile._json.followers_count;
                         user.twitter.friends_count = profile._json.friends_count;
-                        return done(null, user); // user found, return that user
+                        user.save(function (err) {
+                            if (err)
+                                throw err;
+                            return done(null, user); // user found, return that user
+                        })
+                        // return done(null, user); // user found, return that user
                     } else {
                         // if there is no user, create them
                         var newUser = new User();
@@ -284,11 +293,17 @@ module.exports = function (passport) {
             clientID: configAuth.officeAuth.clientID,
             clientSecret: configAuth.officeAuth.clientSecret,
             callbackURL: configAuth.officeAuth.callbackURL,
+            identityMetadata: configAuth.officeAuth.identityMetadata,
+            responseType: configAuth.officeAuth.responseType,
+            responseMode: configAuth.officeAuth.responseMode,
+            redirectUrl: configAuth.officeAuth.redirectUrl,
         },
-        function (token, refreshToken, profile, done) {
 
-            // make the code asynchronous
-            // User.findOne won't fire until we have all our data back from Google
+        function (iss, sub, profile, accessToken, refreshToken, done) {
+            if (!profile.oid) {
+                return done(new Error("No oid found"), null);
+            }
+            // asynchronous verification, for effect...
             process.nextTick(function () {
 
                 // try to find the user based on their google id

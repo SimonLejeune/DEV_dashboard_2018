@@ -22,7 +22,7 @@ var fs = require('fs')
 var https = require('https')
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, { useNewUrlParser: true }); // connect to our database
+mongoose.connect(configDB.url, { useNewUrlParser: true, useCreateIndex: true }); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
