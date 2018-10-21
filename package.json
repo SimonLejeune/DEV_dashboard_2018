@@ -29,6 +29,8 @@
     "passport-azure-ad": "*",
     "fs": "*",
     "https": "*",
-    "request": "*"
+    "request": "*",
+    "googleapis": "*",
+    "google-auth-library": "*"
   }
 }

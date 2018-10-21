@@ -24,29 +24,32 @@
           integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <!-- load fontawesome -->
 
+
+</head>
+
 <% if(user.facebook.name){ %>
     <h3 class="text-primary"><span class="fab fa-facebook"></span> Facebook</h3>
     <img src="<%= user.facebook.profilePicture %>"/>
-        <p>Bienvenue <%= user.facebook.name %> </p>
+    <p>Bienvenue <%= user.facebook.name %> </p>
 <% } %>
 
 <% if(user.twitter.username){ %>
     <h3 class="text-info"><span class="fab fa-twitter"></span> Twitter</h3>
     <a href="<%= user.twitter.profile %>" target="_blank"><img src="<%= user.twitter.profilePicture %>"/></a>
     <p><span>Bienvenue</span> <%= user.twitter.username %> <br>
-    <a href="<%= user.twitter.profile %>" target="_blank">Votre profil Twitter</a><br>
-    <span>Vous avez :</span> <%= user.twitter.followers_count %> <span> followers</span><br>
+        <a href="<%= user.twitter.profile %>" target="_blank">Votre profil Twitter</a><br>
+        <span>Vous avez :</span> <%= user.twitter.followers_count %> <span> followers</span><br>
         <span>Vous suivez :</span> <%= user.twitter.friends_count %> <span> personnes</span></p>
 <% } %>
 
 <% if(user.google.name){ %>
     <h3 class="text-danger"><span class="fab fa-google"></span> Google</h3>
-<a href="<%= user.google.profile %>" target="_blank"><img src="<%= user.google.profilePicture %>"/></a>
+    <a href="<%= user.google.profile %>" target="_blank"><img src="<%= user.google.profilePicture %>"/></a>
     <span>Bienvenue</span> <%= user.google.name %> <br>
-        <p><a href="<%= user.google.profile %>" target="_blank">Votre profil Google</a></p>
+    <p><a href="<%= user.google.profile %>" target="_blank">Votre profil Google</a></p>
 
 <% } %>
-</head>
+
 <body onload="cache()">
 <div class="meteo" id="meteo">
     <ul id="sortable">
@@ -130,6 +133,7 @@
 
         <button class="btn btn-primary" id="gamelist">Last Game played</button>
         <button class="btn btn-primary" id="profile">Profile</button>
+        <button class="btn btn-primary" id="Friendslist">Links ID friends</button>
 
         <li>
             <div class="container" id="SteamInfo">
@@ -155,6 +159,20 @@
                 <% } %>
             </div>
         </li>
+<!-- https://steamcommunity.com/profiles/76561198068118015/ -->
+
+        <li>
+            <div class="container" id="friendsList" style="overflow-y: scroll; height:200px;">
+                <% if(FriendsList !== null){ %>
+                    <%for (var result in FriendsList){%>
+                        <p><a href="https://steamcommunity.com/profiles/<%=FriendsList[result]%>/"><%=FriendsList[result]%></a></p>
+                <% } %>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
+            </div>
+        </li>
     </ul>
 
     <script>
@@ -164,17 +182,20 @@
         $('#gamelist').click(function(){
             $('#gameList').toggle();
         });
+        $('#Friendslist').click(function(){
+            $('#friendsList').toggle();
+        });
     </script>
 
 
 </div>
 <script>
-    $('#GetMeteo').click(function () {
-        $('#meteo').toggle()
-    })
     function cache() {
         $('#meteoWeek').toggle();
         $('#current_meteo').toggle();
+        $('#SteamInfo').toggle();
+        $('#gameList').toggle();
+        $('#friendsList').toggle();
     }
 </script>
 </body>
