@@ -6,14 +6,16 @@ const $ = require('jquery')
 
 const apiKey = '9cb9ebf1faf9432efdd2489ed4b4f914';
 const apiKey_Steam = 'B80BA570C678C23C56E3B4F42CC90FBF';
+const apiKey_Youtube = 'AIzaSyCvLKKfheRiA7b7vqOic4KFcdi0EmA4zP0';
 const id_default = '76561198068118015';
 var CurrentWeather = null;
 var PrevisionWeather = null;
 var steamInfo = null;
 var steamGameList = null;
+var youtubeInfo = null;
 
 router.get('/', isLoggedIn, function (req, res) {
-    res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, error: null, user : req.user});
+    res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, youtubeVideo: null, error: null, user : req.user});
 
 });
 
@@ -36,23 +38,40 @@ function getRequest(url, res) {
                 success(body);
             } else {
                 console.log("Error");
-                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, error: 'Error, please try againnn'})
+                res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn'})
                 // failure(error);
             }
         });
     });
 }
 
+router.post('/youtube',  function (req, res) {
+    search = req.body.search;
+    let url_youtube_info = `https://www.googleapis.com/youtube/v3/search?key=${apiKey_Youtube}&type=video&part=snippet&q=${search}`;
+    let youtubeText = [];
+    getRequest(url_youtube_info, res).then(function (body) {
+        let youtube_info = JSON.parse(body);
+        if (youtube_info.items.length == 0)
+            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steam_info, GameList: steamGameList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn', user : req.user})
+        else
+            youtubeText.push("https://www.youtube.com/embed/" + youtube_info.items[0].id.videoId)
+        youtubeInfo = youtubeText;
+        console.log(youtubeInfo);
+        res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, youtubeVideo: youtubeInfo, error: null, user : req.user});
+    })
+    
+});
+
 router.post('/InfoSteam',  function (req, res) {
     id = req.body.id;
     console.log(id);
-    let url_steam_info = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey_Steam}&steamids=${id}`;
+    let url_steam_info = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyCvLKKfheRiA7b7vqOic4KFcdi0EmA4zP0&type=video&part=snippet&q=test`;
     let url_get_game =  ` http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${apiKey_Steam}&steamid=${id}&format=json`;
     let steamText = [];
     getRequest(url_steam_info, res).then(function (body1) {
         let steam_info = JSON.parse(body1);
         if (steam_info.response.players.length == 0)
-            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steam_info, GameList: steamGameList, error: 'Error, please try againnn'})
+            res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steam_info, GameList: steamGameList, youtubeVideo: youtubeInfo, error: 'Error, please try againnn', user : req.user})
         else
           //  steamText = steam_info.response.players[0].avatarfull;
             steamText.push(steam_info.response.players[0].avatarfull);
@@ -75,7 +94,7 @@ router.post('/InfoSteam',  function (req, res) {
             i++;
         }
         steamGameList = games_list;
-        res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, error: null, user : req.user});
+        res.render('dashboard', {weather: CurrentWeather, weatherWeek: PrevisionWeather, steamInfo: steamInfo, GameList: steamGameList, youtubeVideo: youtubeInfo, error: null, user : req.user});
         })
 });
 
@@ -90,7 +109,7 @@ router.post('/currentMeteo', function (req, res) {
         getRequest(url_current_weather, res).then(function (body1) {
             let weather_current = JSON.parse(body1);
             if (weather_current.main === undefined) {
-                res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, error: 'Error, please try again', user : req.user})
+                res.render('dashboard', {weather: null, weatherWeek: null, steamInfo: null, GameList: null, youtubeVideo: null, error: 'Error, please try again', user : req.user})
             } else {
                 cityGlob = city;
                 weatherText = []
@@ -126,7 +145,7 @@ router.post('/currentMeteo', function (req, res) {
             }
             CurrentWeather = weatherText;
             PrevisionWeather = weatherWeekText;
-            res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, steamInfo:steamInfo, GameList: steamGameList,  error: null, user : req.user});
+            res.render('dashboard', {weather: weatherText, weatherWeek: weatherWeekText, steamInfo:steamInfo, GameList: steamGameList, youtubeVideo: youtubeInfo,  error: null, user : req.user});
         })
     }
 );

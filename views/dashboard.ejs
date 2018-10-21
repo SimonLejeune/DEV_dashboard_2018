@@ -6,9 +6,6 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
-   <style>
-        body        { padding-top:80px; }
-    </style>
     <script>
         $( function() {
             $( "#sortable" ).sortable();
@@ -107,11 +104,18 @@
     <ul id="sortable">
         <h4>Youtube</h4>
 
-        <form action="/dashboard/currentMeteo" method="post">
-            <input name="city" type="text" class="ghost-input" placeholder="Recherche" required>
+        <form action="/dashboard/youtube" method="post">
+            <input name="search" type="text" class="ghost-input" placeholder="Recherche" required>
             <input type="submit" class="ghost-button" class="icone-loupe">
         </form>
-
+                <% if(youtubeVideo !== null){ %>
+            <iframe width="420" height="315"
+                    src=" <%= youtubeVideo[0] %>">
+            </iframe>
+                <% } %>
+                <% if(error !== null){ %>
+                    <p><%= error %></p>
+                <% } %>
     </ul>
 </div>
 
