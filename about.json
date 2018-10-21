@@ -36,7 +36,13 @@
         " params ": [{
           " name ": "ID" ,
           " type ": " string "
-        }]
+        }, {
+          " name ": " List link friends " ,
+          " description ": " Affiche la liste des liens vers le profile des amis de la personne " ,
+          " params ": [{
+            " name ": "ID" ,
+            " type ": " string "
+          }]
       }]
     }]
   }
