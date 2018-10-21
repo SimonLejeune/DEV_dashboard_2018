@@ -1,6 +1,6 @@
 {
   " client ": {
-    " host ": "10.101.53.35"
+    " host ": "localhost"
   },
   " server ": {
     " current_time ": 1531680780 ,
@@ -45,5 +45,15 @@
           }]
       }]
     }]
-  }
+  }, {
+      " name ": " youtube " ,
+      " widgets ": [{
+        " name ": " Get first Video of research " ,
+        " description ": " Affiche la premier video trouver en fonction de la recherche" ,
+        " params ": [{
+          " name ": "Search" ,
+          " type ": " string "
+        }]
+      }
+    }
 }
