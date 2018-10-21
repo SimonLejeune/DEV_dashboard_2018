@@ -1,6 +1,6 @@
 # Dashboard
 
-Le but de ce projet est d'implémenter une application web style dashboard
+Le but de ce projet est d'implémenté une application web style dashboard
 
 ## Qu'est ce que c'est
 
@@ -27,7 +27,7 @@ Il y a trois widgets pour Steam:
           
 ```
 
-### Comment Utiliser ces services
+### Comment utiliser ces services
 
 ```
 Météo :
@@ -37,7 +37,7 @@ Youtube;
     - Entrer le nom d'une vidéo et valider.
 
 Steam:
-    Entrer l'ID d'un utilisateur et valider. 
+    - Entrer l'ID d'un utilisateur et valider. 
 ```
 
 
@@ -52,12 +52,24 @@ Installer le module npm
 Lancer : npm install
 
 Cela installera toute les dépendences mise dans le fichier package.json
+
+Rendez vous sur https:://localhost:8080
 ```
 
 ### Mise en route
 
 ```
 Lancer : node server.js
+```
+
+### Mise en route avec Docker
+
+```
+Lancer : docker-compose build
+
+Puis : docker-compose up
+
+Rendez vous sur https:://localhost:8080
 ```
 
 ## Built With
